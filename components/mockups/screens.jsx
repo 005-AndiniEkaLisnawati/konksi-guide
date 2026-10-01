@@ -54,7 +54,13 @@ import {
   Sofa,
   Sparkles,
   Star,
-  Target,
+  ClipboardClock,
+  Calendar,
+  ChevronLeft,
+  Hourglass,
+  ReceiptText,
+  Store,
+  Phone,
   Ticket,
   TicketPercent,
   Trash2,
@@ -1452,47 +1458,55 @@ function VoucherProductsScreen() {
   );
 }
 
+// Gaya label status di daftar transaksi (sama dengan getStatusStyle di konksi-app).
+const LIST_STATUS_STYLE = {
+  Pending: "bg-slate-100 text-slate-600",
+  Berhasil: "border border-emerald-200 bg-emerald-50 text-emerald-600",
+  Dibatalkan: "border border-slate-200 bg-slate-50 text-slate-600",
+};
+
 function TransactionsScreen() {
   const orders = [
-    { name: "Servis & Cuci AC Rumah", merchant: AC.merchant, price: "136.500", status: "Menunggu Pembayaran", badge: "bg-amber-100 text-amber-700", date: "1 Okt 2026", pending: true },
-    { name: "Pijat Refleksi 60 Menit", merchant: "Sehat Sentosa Spa", price: "120.000", status: "Menunggu Konfirmasi", badge: "bg-sky-100 text-sky-700", date: "30 Sep 2026", spot: true },
-    { name: "Cuci Sofa & Kasur", merchant: "Bersih Kilat", price: "200.000", status: "Selesai", badge: "bg-emerald-100 text-emerald-700", date: "21 Sep 2026" },
-    { name: "Potong Rambut Panggilan", merchant: "Barber Keliling", price: "45.000", status: "Dibatalkan", badge: "bg-rose-100 text-rose-700", date: "12 Sep 2026" },
+    { name: "Servis & Cuci AC Rumah", merchant: AC.merchant, variant: "1 Unit AC", price: "136.500", status: "Pending", date: "01 Okt 2026, 09.12", pending: true },
+    { name: "Pijat Refleksi 60 Menit", merchant: "Sehat Sentosa Spa", variant: "60 Menit", price: "117.000", status: "Pending", date: "30 Sep 2026, 09.15", spot: true },
+    { name: "Cuci Sofa & Kasur", merchant: "Bersih Kilat", variant: "Sofa 3 Dudukan", price: "200.000", status: "Berhasil", date: "21 Sep 2026, 14.02" },
+    { name: "Potong Rambut Panggilan", merchant: "Barber Keliling", variant: "Dewasa", price: "45.000", status: "Dibatalkan", date: "12 Sep 2026, 10.40" },
   ];
   return (
     <AppScreen nav="transaksi">
       <div className="sticky top-0 z-10 grid grid-cols-2 border-b border-slate-200 bg-white text-center text-[11px] font-bold">
         <Spot id="tab-pesanan" className="rounded-md">
-          <span className="flex items-center justify-center gap-1 border-b-2 border-primary py-2.5 text-primary">
+          <span className="flex items-center justify-center gap-1.5 border-b-2 border-primary py-2.5 text-primary">
             <ScrollText className="size-3.5" /> Pesanan Kamu
           </span>
         </Spot>
-        <span className="flex items-center justify-center gap-1 py-2.5 text-slate-400">
-          <Target className="size-3.5" /> Afiliasi
+        <span className="flex items-center justify-center gap-1.5 border-b-2 border-transparent py-2.5 text-slate-500">
+          <ClipboardClock className="size-3.5 text-slate-400" /> Afiliasi
         </span>
       </div>
-      <div className="flex items-center justify-between px-3 py-2.5 text-[10.5px]">
-        <b>4 Transaksi</b>
+      <div className="mt-3 flex items-center justify-between px-3 py-1.5">
+        <b className="text-[10.5px] text-slate-900">4 Transaksi</b>
         <Spot id="filter" className="rounded-lg" labelSide="left">
-          <span className="flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-2 py-1">
-            <SlidersHorizontal className="size-3" /> Filter
+          <span className="flex items-center gap-1.5 px-2 py-1 text-[10.5px] font-semibold text-slate-700">
+            <SlidersHorizontal className="size-3.5" /> Filter
           </span>
         </Spot>
       </div>
-      <div className="space-y-2 px-3">
+      <div className="mt-1 space-y-2.5 px-3">
         {orders.map((o) => {
-          const badge = <span className={`block rounded-md px-1.5 py-1 text-[8.5px] font-bold ${o.badge}`}>{o.status}</span>;
+          const badge = <span className={`block rounded-md px-2 py-1 text-[8.5px] font-bold ${LIST_STATUS_STYLE[o.status]}`}>{o.status}</span>;
           return (
-            <div key={o.name} className="rounded-lg border border-slate-100 bg-white shadow-sm">
-              <div className="flex gap-2 p-2.5">
-                <div className="min-w-0 flex-1">
-                  <p className="truncate text-[11px] font-bold">{o.name}</p>
-                  <p className="truncate text-[9.5px] font-semibold text-slate-600">{o.merchant}</p>
-                  <p className="mt-1.5 flex items-center gap-1 text-[9px] text-slate-500">
-                    <CalendarDays className="size-2.5" /> {o.date}
+            <div key={o.name} className="rounded-sm border border-slate-200 bg-white p-3 shadow-2xs">
+              <div className="flex items-center gap-2">
+                <div className="min-w-0 flex-1 pr-1">
+                  <p className="truncate text-[11px] font-bold text-slate-900">{o.name}</p>
+                  <p className="mt-0.5 truncate text-[9.5px] font-semibold text-slate-700">{o.merchant}</p>
+                  <p className="mt-0.5 truncate text-[9px] text-slate-500">{o.variant}</p>
+                  <p className="mt-2 flex items-center gap-1 text-[8.5px] text-slate-500">
+                    <Calendar className="size-2.5" /> {o.date}
                   </p>
                 </div>
-                <div className="flex shrink-0 flex-col items-end justify-between gap-2">
+                <div className="flex min-h-[64px] shrink-0 flex-col items-end justify-between">
                   {o.spot ? (
                     <Spot id="status-badge" className="rounded-md" labelSide="left">
                       {badge}
@@ -1500,20 +1514,23 @@ function TransactionsScreen() {
                   ) : (
                     badge
                   )}
-                  <p className="text-[11px] font-bold">IDR {o.price}</p>
+                  <p className="text-[11px] font-bold text-slate-900">IDR {o.price}</p>
                 </div>
               </div>
               {o.pending ? (
-                <div className="flex items-center justify-between gap-2 rounded-b-lg bg-primary/10 px-2.5 py-2">
-                  <div className="text-[9px]">
-                    <p className="flex items-center gap-1 font-bold">
-                      <Clock className="size-2.5" /> Menunggu Pembayaran
-                    </p>
-                    <p className="font-bold text-red-600">Bayar dlm 12:48</p>
+                <div className="mt-2 flex items-center justify-between gap-2 rounded-sm border border-primary/20 bg-primary/10 p-2">
+                  <div className="flex min-w-0 items-center gap-2">
+                    <span className="grid size-6 shrink-0 place-items-center rounded-full bg-primary/20">
+                      <Clock className="size-3 text-black" />
+                    </span>
+                    <div className="min-w-0">
+                      <p className="truncate text-[9.5px] font-bold text-black">Menunggu Pembayaran</p>
+                      <p className="text-[9.5px] font-bold text-red-500">Bayar dlm 12:48</p>
+                    </div>
                   </div>
-                  <Spot id="bayar-pending" className="rounded-lg" labelSide="bottom">
-                    <span className="flex items-center gap-1 rounded-lg bg-primary px-2.5 py-1.5 text-[10px] font-bold text-white">
-                      <ExternalLink className="size-3" /> Bayar
+                  <Spot id="bayar-pending" className="rounded" labelSide="bottom">
+                    <span className="flex items-center gap-1 rounded bg-primary px-2.5 py-1.5 text-[9.5px] font-bold text-white">
+                      Bayar <ExternalLink className="size-2.5" />
                     </span>
                   </Spot>
                 </div>
@@ -1526,49 +1543,187 @@ function TransactionsScreen() {
   );
 }
 
+const TX_STEPS = ["Bayar", "Konfirmasi", "Diproses", "Selesai"];
+
+function DetailCard({ title, aside, children }) {
+  return (
+    <section className="rounded-2xl border border-slate-200 bg-white p-3">
+      {title ? (
+        <div className="mb-2 flex items-center justify-between gap-2">
+          <p className="text-[11px] font-bold">{title}</p>
+          {aside}
+        </div>
+      ) : null}
+      {children}
+    </section>
+  );
+}
+
+function DetailInfoRow({ icon: Icon, label, children, copy = false }) {
+  return (
+    <div className="flex items-start gap-2.5 py-1.5">
+      <Icon className="mt-0.5 size-3.5 shrink-0 text-slate-400" />
+      <div className="min-w-0 flex-1">
+        <p className="text-[9px] text-slate-500">{label}</p>
+        <div className="text-[10.5px] font-medium">{children}</div>
+      </div>
+      {copy ? (
+        <span className="grid size-6 shrink-0 place-items-center text-slate-400">
+          <Copy className="size-3" />
+        </span>
+      ) : null}
+    </div>
+  );
+}
+
 function OrderDetailScreen() {
+  const step = 1; // status "Menunggu Konfirmasi"
   const logs = [
-    { title: "Pesanan dibuat", desc: "Menunggu pembayaran", time: "30 Sep, 09.12" },
-    { title: "Pembayaran berhasil", desc: "Dibayar lewat QRIS", time: "30 Sep, 09.15" },
-    { title: "Menunggu konfirmasi mitra", desc: "Mitra sedang memeriksa pesanan", time: "30 Sep, 09.15" },
+    { title: "Menunggu konfirmasi mitra", desc: "Mitra sedang memeriksa pesananmu.", time: "30 Sep 2026, 09.15" },
+    { title: "Pembayaran berhasil", desc: "Dibayar lewat QRIS.", time: "30 Sep 2026, 09.15" },
+    { title: "Pesanan dibuat", desc: "Menunggu pembayaran.", time: "30 Sep 2026, 09.12" },
   ];
   return (
-    <SheetFrame title="Detail Lengkap Pesanan">
-      <div className="space-y-2.5">
-        <div className="rounded-lg bg-slate-50 p-2.5">
-          <p className="text-[9.5px] font-bold text-slate-500">Status &amp; Nomor Order</p>
-          <div className="mt-1 flex items-center justify-between">
-            <span className="font-mono text-[10.5px] font-bold">JK-48213709552</span>
-            <span className="rounded-md bg-sky-100 px-1.5 py-0.5 text-[8.5px] font-bold text-sky-700">Menunggu Konfirmasi</span>
-          </div>
-          <p className="mt-1.5 text-[10.5px] font-semibold">Pijat Refleksi 60 Menit</p>
-          <p className="text-[9.5px] text-slate-500">Varian: 60 Menit · Jumlah Item: 1x</p>
+    <div className="flex min-h-full flex-col bg-slate-100/70">
+      <div className="sticky top-0 z-10 grid grid-cols-[auto_1fr] items-center gap-2 border-b border-slate-200 bg-white/95 px-3 py-2.5">
+        <span className="grid size-7 place-items-center rounded-full border border-slate-200 bg-white text-slate-500">
+          <ChevronLeft className="size-3.5" />
+        </span>
+        <div>
+          <p className="text-[12.5px] font-semibold">Detail Transaksi</p>
+          <p className="text-[9px] text-slate-500">Pesanan kamu</p>
         </div>
-        <div className="rounded-lg bg-slate-50 p-2.5">
-          <p className="text-[9.5px] font-bold text-slate-500">Rincian Pembayaran &amp; Finansial</p>
-          <Row label="Harga Produk / Subtotal:" value="Rp120.000" />
-          <Row label="Biaya Penanganan:" value="Rp3.600" />
-          <Row label="Total Tagihan Final:" value="Rp123.600" tone="text-primary" />
-        </div>
-        <Spot id="timeline" className="rounded-lg" labelSide="top">
-          <div className="rounded-lg bg-slate-50 p-2.5">
-            <p className="text-[9.5px] font-bold text-slate-500">Riwayat &amp; Timeline</p>
-            <div className="mt-2 space-y-2.5 border-l-2 border-primary/30 pl-3">
-              {logs.map((l) => (
-                <div key={l.title} className="relative">
-                  <span className="absolute -left-[17px] top-1 size-2 rounded-full bg-primary ring-2 ring-white" />
-                  <p className="text-[10px] font-bold">{l.title}</p>
-                  <p className="text-[9px] text-slate-500">{l.desc}</p>
-                  <p className="flex items-center gap-0.5 text-[8.5px] text-slate-400">
-                    <Clock className="size-2.5" /> {l.time}
-                  </p>
-                </div>
-              ))}
+      </div>
+
+      <div className="space-y-2.5 px-3 pb-8 pt-3">
+        {/* Status */}
+        <section className="rounded-2xl border border-slate-200 bg-white p-3">
+          <div className="flex items-start gap-2.5">
+            <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-blue-100 text-blue-700">
+              <Hourglass className="size-4" />
+            </span>
+            <div>
+              <p className="text-[14px] font-bold leading-tight">Menunggu Konfirmasi</p>
+              <p className="mt-0.5 text-[9.5px] leading-relaxed text-slate-500">Pembayaranmu sudah diterima. Mitra sedang memeriksa pesananmu.</p>
             </div>
           </div>
+          <Spot id="status-progress" className="mt-3 rounded-lg" labelSide="bottom">
+            <ol className="grid grid-cols-4 py-1">
+              {TX_STEPS.map((label, i) => {
+                const done = i < step;
+                const current = i === step;
+                return (
+                  <li key={label} className="relative flex flex-col items-center text-center">
+                    {i > 0 ? <span className={`absolute right-1/2 top-2 h-0.5 w-full ${i <= step ? "bg-primary" : "bg-slate-200"}`} /> : null}
+                    <span
+                      className={`relative z-10 grid size-4 place-items-center rounded-full border-2 ${
+                        done ? "border-primary bg-primary text-white" : current ? "border-primary bg-white" : "border-slate-200 bg-white"
+                      }`}
+                    >
+                      {done ? <Check className="size-2.5" strokeWidth={3} /> : current ? <span className="size-1.5 rounded-full bg-primary" /> : null}
+                    </span>
+                    <span className={`mt-1 text-[8.5px] ${i <= step ? "font-semibold" : "text-slate-400"}`}>{label}</span>
+                  </li>
+                );
+              })}
+            </ol>
+          </Spot>
+        </section>
+
+        {/* Produk */}
+        <DetailCard title="Produk">
+          <div className="flex gap-2.5">
+            <Thumb product={PRODUCTS[1]} className="size-12 shrink-0 rounded-xl" />
+            <div className="min-w-0">
+              <p className="text-[11px] font-semibold leading-snug">{PRODUCTS[1].name}</p>
+              <p className="text-[9.5px] text-slate-500">60 Menit</p>
+              <p className="mt-0.5 flex items-center gap-1 text-[9px] text-slate-500">
+                <Store className="size-2.5" /> {PRODUCTS[1].merchant}
+              </p>
+            </div>
+          </div>
+          <div className="mt-2 flex items-center gap-1">
+            <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[8.5px] text-slate-500">Jasa</span>
+            <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[8.5px] text-slate-500">Home service</span>
+            <span className="ml-auto text-[9.5px] text-slate-500">1 × Rp120.000</span>
+          </div>
+        </DetailCard>
+
+        {/* Jadwal */}
+        <DetailCard title="Jadwal layanan" aside={<span className="rounded-full bg-primary/10 px-2 py-0.5 text-[8.5px] font-semibold text-primary">10 hari lagi</span>}>
+          <div className="flex items-center gap-2.5">
+            <div className="flex w-11 shrink-0 flex-col items-center overflow-hidden rounded-lg border border-slate-200">
+              <span className="w-full bg-primary py-0.5 text-center text-[8px] font-bold text-white">OKT</span>
+              <span className="py-0.5 text-[16px] font-bold leading-none">10</span>
+            </div>
+            <div>
+              <p className="text-[10.5px] font-semibold">Sabtu, 10 Oktober 2026</p>
+              <p className="flex items-center gap-1 text-[9.5px] text-slate-500">
+                <CalendarDays className="size-3" /> 10.00 – 11.00
+              </p>
+            </div>
+          </div>
+        </DetailCard>
+
+        {/* Pembayaran */}
+        <DetailCard
+          title="Rincian pembayaran"
+          aside={
+            <span className="flex items-center gap-1 rounded-full bg-slate-100 px-2 py-0.5 text-[8.5px] font-semibold text-slate-500">
+              <CreditCard className="size-2.5" /> QRIS
+            </span>
+          }
+        >
+          <Row label="Subtotal produk" value="Rp120.000" />
+          <Row label="Diskon afiliator" value="-Rp3.000" tone="text-emerald-600" />
+          <div className="mt-1 flex items-baseline justify-between border-t border-dashed border-slate-200 pt-1.5">
+            <span className="text-[10.5px] font-semibold">Total</span>
+            <span className="text-[13px] font-bold">Rp117.000</span>
+          </div>
+        </DetailCard>
+
+        {/* Pemesan */}
+        <DetailCard title="Data pemesan">
+          <div className="divide-y divide-slate-100">
+            <DetailInfoRow icon={User} label="Nama">Budi Santoso</DetailInfoRow>
+            <DetailInfoRow icon={Phone} label="Nomor HP" copy>
+              0812-3456-7890
+            </DetailInfoRow>
+          </div>
+        </DetailCard>
+
+        {/* Riwayat */}
+        <Spot id="timeline" className="rounded-2xl" labelSide="top">
+          <DetailCard title="Riwayat pesanan" aside={<span className="text-[9px] text-slate-500">{logs.length} aktivitas</span>}>
+            <ol>
+              {logs.map((log, i) => (
+                <li key={log.title} className="relative flex gap-2.5 pb-3 last:pb-0">
+                  {i < logs.length - 1 ? <span className="absolute left-[4px] top-3 h-full w-px bg-slate-200" /> : null}
+                  <span className={`relative mt-1 size-[9px] shrink-0 rounded-full border-2 ${i === 0 ? "border-primary bg-primary" : "border-slate-200 bg-white"}`} />
+                  <div>
+                    <p className={`text-[10px] font-semibold ${i === 0 ? "" : "text-slate-500"}`}>{log.title}</p>
+                    <p className="text-[9px] text-slate-500">{log.desc}</p>
+                    <p className="mt-0.5 text-[8.5px] text-slate-400">{log.time}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </DetailCard>
         </Spot>
+
+        {/* Info pesanan */}
+        <DetailCard title="Info pesanan">
+          <div className="divide-y divide-slate-100">
+            <DetailInfoRow icon={ReceiptText} label="Nomor pesanan" copy>
+              <span className="font-mono">JK-48213709552</span>
+            </DetailInfoRow>
+            <DetailInfoRow icon={CalendarDays} label="Waktu pesan">
+              30 Sep 2026, 09.12
+            </DetailInfoRow>
+          </div>
+        </DetailCard>
       </div>
-    </SheetFrame>
+    </div>
   );
 }
 
