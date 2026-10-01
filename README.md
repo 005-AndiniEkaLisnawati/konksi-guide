@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# konksi-guide
 
-## Getting Started
-
-First, run the development server:
+Pusat Panduan Konksi: a step-by-step guide site for the Konksi app, written for older and non-technical users. Built with Next.js 16 (App Router) and Tailwind CSS 4.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run dev     # http://localhost:3000
+npm run build   # every guide page is pre-rendered (SSG)
+npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Editing content
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+All guide content lives in **`lib/guides-data.js`**. Add or change a guide there; pages, search, and the footer update automatically. Each step points at a simulated phone screen through two fields:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `screen`: a screen key in `components/mockups/screens.jsx`
+- `spot`: the id of the `<Spot>` (highlighted button) on that screen
 
-## Learn More
+## Structure
 
-To learn more about Next.js, take a look at the following resources:
+| Path | Purpose |
+|---|---|
+| `app/page.jsx` | Home: hero, search, role cards, how-to demo |
+| `app/guide/[role]/page.jsx` | List of guides for one role (afiliator / pembeli) |
+| `app/guide/[role]/[slug]/page.jsx` | Guide article |
+| `components/ui/AppMockup.jsx` | Phone frame + pulsing spotlight; scrolls the screen so the spot is in view |
+| `components/ui/MascotGuide.jsx` | Si Konk & Sisi with poses (`welcome`, `pointing`, `warning`, `success`, `shopping`, `money`, plus `discount`, `gift`, `coin`, `cheer`) or `poseForTopic()` |
+| `components/mockups/screens.jsx` | Simulated konksi-app screens |
+| `components/guide/*` | Step card, tips/warning callouts, read-aloud button, help card |
+| `lib/speech.js` | Indonesian read-aloud (browser `speechSynthesis`) |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Accessibility
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- 18px body text, high contrast, and buttons at least 48px tall.
+- "Perbesar Teks" button scales all text up to 125%. The choice is saved in the browser.
+- "Dengarkan" button on every step reads the instructions aloud in Indonesian.
+- Respects `prefers-reduced-motion`.
+# konksi-guide
