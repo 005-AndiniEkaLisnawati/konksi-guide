@@ -1,13 +1,14 @@
-"use client";
-
 import Link from "next/link";
 import Image from "next/image";
 import TextSizeToggle from "@/components/layout/TextSizeToggle";
+import Container from "@/components/shared/Container";
+import { ROLES, roleHref } from "@/lib/guides-data";
 
+/** Header lengket di atas setiap halaman: logo, menu peran (layar lebar), tombol ukuran teks. */
 export default function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 border-b-[2.5px] border-ink bg-paper/95 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
+      <Container className="flex items-center justify-between gap-3 py-3">
         <Link href="/" className="flex items-center gap-3 rounded-xl" aria-label="Kembali ke halaman utama Panduan Konksi">
           <Image
             src="/img/logo-konksi-affiliate.png"
@@ -25,16 +26,15 @@ export default function SiteHeader() {
         </Link>
 
         <nav aria-label="Menu utama" className="hidden items-center gap-1 md:flex">
-          <Link href="/guide/afiliator" className="rounded-xl px-4 py-2.5 font-bold hover:bg-lilac">
-            Afiliator
-          </Link>
-          <Link href="/guide/pembeli" className="rounded-xl px-4 py-2.5 font-bold hover:bg-lilac">
-            Pembeli
-          </Link>
+          {Object.values(ROLES).map((role) => (
+            <Link key={role.key} href={roleHref(role)} className="rounded-xl px-4 py-2.5 font-bold hover:bg-lilac">
+              {role.shortTitle}
+            </Link>
+          ))}
         </nav>
 
         <TextSizeToggle />
-      </div>
+      </Container>
     </header>
   );
 }

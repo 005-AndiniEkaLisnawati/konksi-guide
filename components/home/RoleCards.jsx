@@ -1,31 +1,18 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import MascotGuide from "@/components/ui/MascotGuide";
-import { ROLES, getGuidesByRole, guideHref } from "@/lib/guides-data";
+import { ROLES, getGuidesByRole, guideHref, roleHref } from "@/lib/guides-data";
+import { roleTheme } from "@/lib/role-themes";
 
-export const ROLE_CARD_THEMES = {
-  afiliator: {
-    card: "bg-primary text-white",
-    list: "bg-white/12 hover:bg-white/22 border-white/35",
-    cta: "bg-sun text-ink",
-    muted: "text-white/85",
-  },
-  pembeli: {
-    card: "bg-sun text-ink",
-    list: "bg-white/55 hover:bg-white border-ink/25",
-    cta: "bg-primary text-white",
-    muted: "text-ink-soft",
-  },
-};
-
+/** Kartu besar per peran (ungu = Afiliator, kuning = Pembeli) berisi daftar panduannya. */
 export default function RoleCards() {
   return (
     <div className="grid gap-8 lg:grid-cols-2">
       {Object.values(ROLES).map((role) => {
-        const t = ROLE_CARD_THEMES[role.key];
+        const t = roleTheme(role.key);
         const guides = getGuidesByRole(role.key);
         return (
-          <article key={role.key} className={`relative flex flex-col overflow-hidden rounded-[2rem] p-6 brut sm:p-9 ${t.card}`}>
+          <article key={role.key} className={`relative flex flex-col overflow-hidden rounded-[2rem] p-6 brut sm:p-9 ${t.surface}`}>
             <div className="flex items-start justify-between gap-4">
               <div>
                 <span aria-hidden="true" className="grid size-16 place-items-center rounded-2xl border-[2.5px] border-ink bg-card text-4xl">
@@ -52,7 +39,7 @@ export default function RoleCards() {
             </ul>
 
             <Link
-              href={`/guide/${role.key}`}
+              href={roleHref(role)}
               className={`mt-7 inline-flex min-h-14 items-center justify-center gap-2 self-start rounded-xl px-6 text-lg font-extrabold brut-sm press ${t.cta}`}
             >
               Buka {role.title} <ArrowRight className="size-5" aria-hidden="true" />

@@ -4,7 +4,8 @@ import { useId, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowRight, Search, X } from "lucide-react";
-import { ROLES, guideHref, searchGuides } from "@/lib/guides-data";
+import { ROLES, guideHref } from "@/lib/guides-data";
+import { searchGuides } from "@/lib/search";
 import MascotGuide from "@/components/ui/MascotGuide";
 
 const QUICK = ["Tarik Saldo", "Bio Link", "Voucher", "Lacak Pesanan", "Misi Harian"];

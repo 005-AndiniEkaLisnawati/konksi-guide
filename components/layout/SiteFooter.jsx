@@ -1,10 +1,12 @@
 import Link from "next/link";
-import { ROLES, getGuidesByRole, guideHref } from "@/lib/guides-data";
+import Container from "@/components/shared/Container";
+import { ROLES, getGuidesByRole, guideHref, roleHref } from "@/lib/guides-data";
 
+/** Footer gelap: deskripsi singkat + daftar semua panduan per peran (otomatis dari content/). */
 export default function SiteFooter() {
   return (
     <footer className="mt-24 border-t-[2.5px] border-ink bg-ink text-paper">
-      <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-[1.3fr_1fr_1fr]">
+      <Container className="grid gap-10 py-12 md:grid-cols-[1.3fr_1fr_1fr]">
         <div>
           <p className="text-2xl font-extrabold">Pusat Panduan Konksi</p>
           <p className="mt-2 max-w-sm text-paper/75">
@@ -13,7 +15,7 @@ export default function SiteFooter() {
         </div>
         {Object.values(ROLES).map((role) => (
           <div key={role.key}>
-            <Link href={`/guide/${role.key}`} className="font-extrabold text-sun hover:underline underline-offset-4">
+            <Link href={roleHref(role)} className="font-extrabold text-sun hover:underline underline-offset-4">
               {role.title}
             </Link>
             <ul className="mt-3 space-y-2.5">
@@ -27,11 +29,11 @@ export default function SiteFooter() {
             </ul>
           </div>
         ))}
-      </div>
+      </Container>
       <div className="border-t border-paper/15">
-        <p className="mx-auto max-w-6xl px-4 py-5 text-sm text-paper/60 sm:px-6">
+        <Container as="p" className="py-5 text-sm text-paper/60">
           © {new Date().getFullYear()} Konksi · Gambar layar di panduan ini adalah simulasi dari aplikasi Konksi.
-        </p>
+        </Container>
       </div>
     </footer>
   );

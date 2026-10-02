@@ -1,6 +1,7 @@
 import { Plus_Jakarta_Sans } from "next/font/google";
 import SiteHeader from "@/components/layout/SiteHeader";
 import SiteFooter from "@/components/layout/SiteFooter";
+import { TEXT_SIZE_INIT_SCRIPT } from "@/lib/text-size";
 import "./globals.css";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -29,11 +30,7 @@ export default function RootLayout({ children }) {
     <html lang="id" className={`${jakarta.variable} h-full`} suppressHydrationWarning>
       <head>
         {/* Terapkan ukuran teks pilihan pengguna sebelum halaman tampil, supaya tidak berkedip. */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `try{var s=localStorage.getItem("konksi-guide:text-size");if(s&&s!=="normal")document.documentElement.setAttribute("data-text",s)}catch(e){}`,
-          }}
-        />
+        <script dangerouslySetInnerHTML={{ __html: TEXT_SIZE_INIT_SCRIPT }} />
       </head>
       <body className="min-h-full flex flex-col">
         <a

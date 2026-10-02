@@ -2,14 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 import { SCREENS } from "@/components/mockups/screens";
-import { Spot, SpotContext } from "@/components/mockups/Spot";
-
-export { Spot };
+import { SpotContext } from "@/components/mockups/Spot";
 
 /**
  * Bingkai HP yang menampilkan simulasi layar aplikasi Konksi.
  *
- * @param {string}   screen     kunci layar di SCREENS (lihat components/mockups/screens.jsx)
+ * @param {string}   screen     kunci layar di SCREENS (lihat components/mockups/screens/index.js)
  * @param {string}   spot       id bagian layar yang disorot
  * @param {string}   spotLabel  teks label kecil di dekat sorotan, mis. "Tekan di sini"
  * @param {Function} onSpotTap  dipanggil saat sorotan ditekan (membuat mockup interaktif)
@@ -32,6 +30,9 @@ export default function AppMockup({
   useEffect(() => {
     const box = scrollRef.current;
     const el = box?.querySelector('[data-spot-active="true"]');
+    if (box && spot && !el && process.env.NODE_ENV !== "production") {
+      console.warn(`[AppMockup] Spot "${spot}" tidak ditemukan di layar "${screen}". Cek id <Spot> di file layarnya.`);
+    }
     if (!box || !el) return;
     const boxRect = box.getBoundingClientRect();
     const elRect = el.getBoundingClientRect();

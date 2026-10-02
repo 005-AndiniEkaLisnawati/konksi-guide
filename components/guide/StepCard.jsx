@@ -4,14 +4,19 @@ import { Check, ArrowDown, RotateCcw } from "lucide-react";
 import AppMockup from "@/components/ui/AppMockup";
 import Callout from "@/components/guide/Callout";
 import ListenButton from "@/components/guide/ListenButton";
+import { stepAnchor } from "@/components/guide/useStepProgress";
 
+/**
+ * Satu kartu langkah: nomor besar, judul, penjelasan, kotak tips, tombol "Sudah, lanjut"
+ * & "Dengarkan", serta gambar HP dengan tombol yang disorot.
+ */
 export default function StepCard({ step, number, total, done, isLast, onDone, onUndo, guideSlug }) {
   const speechText = [`Langkah ${number}. ${step.title}.`, step.text, step.tip ? `${step.tip.type === "warning" ? "Hati-hati" : "Tips penting"}: ${step.tip.text}` : ""]
     .filter(Boolean)
     .join(" ");
 
   return (
-    <li id={`langkah-${number}`} className="relative scroll-mt-24 pb-10 pt-7 last:pb-0 sm:pl-28 sm:pt-0">
+    <li id={stepAnchor(number)} className="relative scroll-mt-24 pb-10 pt-7 last:pb-0 sm:pl-28 sm:pt-0">
       {/* garis timeline */}
       {!isLast ? (
         <span aria-hidden="true" className="absolute bottom-0 left-[2.35rem] top-24 hidden w-[3px] bg-[repeating-linear-gradient(to_bottom,var(--ink)_0_10px,transparent_10px_18px)] sm:block" />

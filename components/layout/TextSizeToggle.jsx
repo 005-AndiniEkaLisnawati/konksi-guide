@@ -1,13 +1,7 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
-
-const SIZES = [
-  { key: "normal", label: "Teks normal" },
-  { key: "besar", label: "Teks besar" },
-  { key: "sangat-besar", label: "Teks sangat besar" },
-];
-export const TEXT_SIZE_STORAGE_KEY = "konksi-guide:text-size";
+import { TEXT_SIZES as SIZES, TEXT_SIZE_STORAGE_KEY } from "@/lib/text-size";
 
 // Ukuran teks disimpan sebagai atribut data-text di <html> (diterapkan lebih awal oleh skrip di layout).
 function subscribe(callback) {
