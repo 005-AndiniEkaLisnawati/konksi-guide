@@ -60,6 +60,11 @@ export const MASCOT_POSES = {
     alt: "Sisi melompat gembira di antara koin",
     characters: "Sisi",
   },
+  hero: {
+    src: `${MASCOT_DIR}/hero.png`,
+    alt: "Sisi dan Si Konk melompat gembira di antara koin",
+    characters: "Sisi & Si Konk",
+  },
 };
 
 /** Memilih pose otomatis berdasarkan topik panduan. */
